@@ -43,7 +43,7 @@
       #{shippingId,jdbcType=INTEGER}, #{payment,jdbcType=DECIMAL}, #{paymentType,jdbcType=INTEGER}, 
       #{postage,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{paymentTime,jdbcType=TIMESTAMP}, 
       #{sendTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{closeTime,jdbcType=TIMESTAMP}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      now(), now())
   </insert>
   <update id="updateByPrimaryKey" parameterType="com.jx.pojo.Order" >
     <!--
@@ -53,17 +53,16 @@
     update neuedu_order
     set user_id = #{userId,jdbcType=INTEGER},
       order_no = #{orderNo,jdbcType=BIGINT},
-      shipping_id = #{shippingId,jdbcType=INTEGER},
-      payment = #{payment,jdbcType=DECIMAL},
-      payment_type = #{paymentType,jdbcType=INTEGER},
-      postage = #{postage,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
-      payment_time = #{paymentTime,jdbcType=TIMESTAMP},
-      send_time = #{sendTime,jdbcType=TIMESTAMP},
-      end_time = #{endTime,jdbcType=TIMESTAMP},
-      close_time = #{closeTime,jdbcType=TIMESTAMP},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    shipping_id = #{shippingId,jdbcType=INTEGER},
+    payment = #{payment,jdbcType=DECIMAL},
+    payment_type = #{paymentType,jdbcType=INTEGER},
+    postage = #{postage,jdbcType=INTEGER},
+    status = #{status,jdbcType=INTEGER},
+    payment_time = #{paymentTime,jdbcType=TIMESTAMP},
+    send_time = #{sendTime,jdbcType=TIMESTAMP},
+    end_time = #{endTime,jdbcType=TIMESTAMP},
+    close_time = #{closeTime,jdbcType=TIMESTAMP},
+    update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -84,5 +83,24 @@
     select id, user_id, order_no, shipping_id, payment, payment_type, postage, status, 
     payment_time, send_time, end_time, close_time, create_time, update_time
     from neuedu_order
+  </select>
+
+  <select id="findOrderByUserIdAndOrderNo" parameterType="map" resultMap="BaseResultMap">
+    select id, user_id, order_no, shipping_id, payment, payment_type, postage, status,
+    payment_time, send_time, end_time, close_time, create_time, update_time
+    from neuedu_order
+    where user_id=#{userId} and order_no=#{orderNo}
+  </select>
+  <select id="findOrderByUserid" parameterType="int" resultMap="BaseResultMap">
+    select id, user_id, order_no, shipping_id, payment, payment_type, postage, status,
+    payment_time, send_time, end_time, close_time, create_time, update_time
+    from neuedu_order
+    where user_id=#{userId}
+  </select>
+  <select id="findOrderByOrderNo" parameterType="long" resultMap="BaseResultMap">
+    select id, user_id, order_no, shipping_id, payment, payment_type, postage, status,
+    payment_time, send_time, end_time, close_time, create_time, update_time
+    from neuedu_order
+    where order_no=#{orderNo}
   </select>
 </mapper>
